@@ -1,15 +1,25 @@
 {
     "name": "@little-bonsai/steamworks.js",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "main": "index.js",
     "types": "index.d.ts",
     "napi": {
         "name": "steamworksjs",
         "triples": {
-            "additional": ["x86_64-pc-windows-msvc", "x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin"]
+            "additional": [
+                "x86_64-pc-windows-msvc",
+                "x86_64-unknown-linux-gnu",
+                "x86_64-apple-darwin",
+                "aarch64-apple-darwin"
+            ]
         }
     },
-    "files": ["dist/*", "index.js", "*.d.ts", "README.md"],
+    "files": [
+        "dist/*",
+        "index.js",
+        "*.d.ts",
+        "README.md"
+    ],
     "license": "MIT",
     "devDependencies": {
         "@napi-rs/cli": "2.16.2",
