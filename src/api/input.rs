@@ -1,8 +1,53 @@
+// use napi::bindgen_prelude::FromNapiValue;
 use napi_derive::napi;
 
 #[napi]
 pub mod input {
     use napi::bindgen_prelude::BigInt;
+    use napi::bindgen_prelude::{FromNapiValue, ToNapiValue};
+    use serde::{Deserialize, Serialize};
+
+    #[derive(Serialize, Deserialize)]
+    #[napi(string_enum)]
+    pub enum InputType {
+        Unknown,
+        SteamController,
+        XBox360Controller,
+        XBoxOneController,
+        GenericGamepad,
+        PS4Controller,
+        AppleMFiController,
+        AndroidController,
+        SwitchJoyConPair,
+        SwitchJoyConSingle,
+        SwitchProController,
+        MobileTouch,
+        PS3Controller,
+        PS5Controller,
+        SteamDeckController,
+    }
+
+    impl InputType {
+        fn from_steamworks_rs(input: steamworks::InputType) -> Self {
+            match input {
+                steamworks::InputType::Unknown => InputType::Unknown,
+                steamworks::InputType::SteamController => InputType::SteamController,
+                steamworks::InputType::XBox360Controller => InputType::XBox360Controller,
+                steamworks::InputType::XBoxOneController => InputType::XBoxOneController,
+                steamworks::InputType::GenericGamepad => InputType::GenericGamepad,
+                steamworks::InputType::PS4Controller => InputType::PS4Controller,
+                steamworks::InputType::AppleMFiController => InputType::AppleMFiController,
+                steamworks::InputType::AndroidController => InputType::AndroidController,
+                steamworks::InputType::SwitchJoyConPair => InputType::SwitchJoyConPair,
+                steamworks::InputType::SwitchJoyConSingle => InputType::SwitchJoyConSingle,
+                steamworks::InputType::SwitchProController => InputType::SwitchProController,
+                steamworks::InputType::MobileTouch => InputType::MobileTouch,
+                steamworks::InputType::PS3Controller => InputType::PS3Controller,
+                steamworks::InputType::PS5Controller => InputType::PS5Controller,
+                steamworks::InputType::SteamDeckController => InputType::SteamDeckController,
+            }
+        }
+    }
 
     #[napi]
     pub struct Controller {
@@ -38,6 +83,17 @@ pub mod input {
                 x: data.x as f64,
                 y: data.y as f64,
             }
+        }
+
+        #[napi]
+        pub fn get_input_type(&self) -> InputType {
+            let client = crate::client::get_client();
+
+            let raw = client
+                .input()
+                .get_input_type_for_handle(self.handle.get_u64().1);
+
+            InputType::from_steamworks_rs(raw)
         }
     }
 

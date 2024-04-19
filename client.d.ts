@@ -71,6 +71,23 @@ export namespace cloud {
   export function fileExists(name: string): boolean
 }
 export namespace input {
+  export const enum InputType {
+    Unknown = 'Unknown',
+    SteamController = 'SteamController',
+    XBox360Controller = 'XBox360Controller',
+    XBoxOneController = 'XBoxOneController',
+    GenericGamepad = 'GenericGamepad',
+    PS4Controller = 'PS4Controller',
+    AppleMFiController = 'AppleMFiController',
+    AndroidController = 'AndroidController',
+    SwitchJoyConPair = 'SwitchJoyConPair',
+    SwitchJoyConSingle = 'SwitchJoyConSingle',
+    SwitchProController = 'SwitchProController',
+    MobileTouch = 'MobileTouch',
+    PS3Controller = 'PS3Controller',
+    PS5Controller = 'PS5Controller',
+    SteamDeckController = 'SteamDeckController'
+  }
   export interface AnalogActionVector {
     x: number
     y: number
@@ -85,6 +102,7 @@ export namespace input {
     activateActionSet(actionSetHandle: bigint): void
     isDigitalActionPressed(actionHandle: bigint): boolean
     getAnalogActionVector(actionHandle: bigint): AnalogActionVector
+    getInputType(): InputType
   }
 }
 export namespace localplayer {
